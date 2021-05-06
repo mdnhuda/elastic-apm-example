@@ -1,4 +1,5 @@
 ## Purpose of this project
+Forked from https://github.com/kamil-gawlik/elastic-apm-example
 
 This is short presentation of Elastic APM set up.
 This set of tools can be used to present flow of information in microservices based system, leting user find out which applications participate in communication and how long each step takes.
@@ -20,13 +21,15 @@ This set of tools can be used to present flow of information in microservices ba
 
 To run infrastructure execute:
 ```bash
-    docker-compose -f infrastructure/docker-compose.yml up -d 
+    docker-compose up elasticsearch kibana apm 
 ```
 
 To run apps, execute in `server` and `frontend` folders:
 
 ```bash
-    ./run_app.sh
+
+    ./mvnw clean package
+    docker-compose up --build server frontend
 ```
 
 ##### Check if everything is running:
@@ -64,6 +67,18 @@ to generate some traffic and refresh kibana's apm page.
     
  ![frontend service selection](./docs/images/apm_transaction_sample.png)
 
+### Passing Open Tracing Header
+Sample request:
+``` 
+curl --location --request GET 'http://localhost:8081/test' \
+  --header 'traceparent: 00-13bf7366817b40b68c03c8c9a5ab983b-c52f5b687dfcd7f4-01' \
+  --header 'tracestate: es=s:0.01'
+
+```
+or
+```bash
+./request_with_traceheader.sh
+```
 
 ### Troubleshooting
  

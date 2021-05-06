@@ -14,7 +14,6 @@ public class FrontendApplication {
         SpringApplication.run(FrontendApplication.class, args);
     }
 
-
     @RestController
     @RequestMapping
     class FrontendRestEndpoint {
@@ -23,7 +22,7 @@ public class FrontendApplication {
 
         @GetMapping("test")
         public String test() {
-            String serverResponse = restTemplate.getForObject("http://localhost:8082/test", String.class);
+            String serverResponse = restTemplate.getForObject("http://server:8082/test", String.class);
             return "Frontend here." + " Server response is: " + serverResponse;
         }
     }
